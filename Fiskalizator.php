@@ -259,8 +259,9 @@ class Fiskalizator {
 			$this->errors[] = 'CODE7: Failed to sign "ZastitniKod".';
 		    return false;
 		}
-
-		return md5($out);
+		$this->zki = md5($out);
+		return $this->zki;
+		
 	}
 
 	private function appendHeaderToRequest($doc) {
