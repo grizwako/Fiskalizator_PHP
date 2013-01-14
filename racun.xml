@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:RacunZahtjev xmlns:tns="http://www.apis-it.hr/fin/2012/types/f73" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<tns:Racun>
+		<tns:Oib>FAKEOIB ==> MUST BE SAME AS IN CERT</tns:Oib>
+		<tns:USustPdv>true</tns:USustPdv>
+		<tns:DatVrijeme>10.01.2013T10:10:28</tns:DatVrijeme>
+		<tns:OznSlijed>P</tns:OznSlijed>
+		<tns:BrRac>
+			<tns:BrOznRac>1</tns:BrOznRac>
+			<tns:OznPosPr>123</tns:OznPosPr>
+			<tns:OznNapUr>1</tns:OznNapUr>
+		</tns:BrRac>
+		<tns:Pdv>
+			<tns:Porez>
+				<tns:Stopa>25.00</tns:Stopa>
+				<tns:Osnovica>-10.00</tns:Osnovica>
+				<tns:Iznos>2.50</tns:Iznos>
+			</tns:Porez>
+			<tns:Porez>
+				<tns:Stopa>10.00</tns:Stopa>
+				<tns:Osnovica>-10.00</tns:Osnovica>
+				<tns:Iznos>1.00</tns:Iznos>
+			</tns:Porez>
+			<tns:Porez>
+				<tns:Stopa>10.00</tns:Stopa>
+				<tns:Osnovica>10.00</tns:Osnovica>
+				<tns:Iznos>1.00</tns:Iznos>
+			</tns:Porez>
+
+			<tns:Porez>
+				<tns:Stopa>10.00</tns:Stopa>
+				<tns:Osnovica>20.00</tns:Osnovica>
+				<tns:Iznos>1.00</tns:Iznos>
+			</tns:Porez>
+			<tns:Porez>
+				<tns:Stopa>0.00</tns:Stopa>
+				<tns:Osnovica>-10.00</tns:Osnovica>
+				<tns:Iznos>0.00</tns:Iznos>
+			</tns:Porez>
+		</tns:Pdv>
+		<tns:Pnp>
+			<tns:Porez>
+				<tns:Stopa>3.00</tns:Stopa>
+				<tns:Osnovica>-10.00</tns:Osnovica>
+				<tns:Iznos>0.30</tns:Iznos>
+			</tns:Porez>
+		</tns:Pnp>
+		<tns:OstaliPor>
+			<tns:Porez>
+				<tns:Naziv>Porez na luksuz</tns:Naziv>
+				<tns:Stopa>15.00</tns:Stopa>
+				<tns:Osnovica>-10.00</tns:Osnovica>
+				<tns:Iznos>1.50</tns:Iznos>
+			</tns:Porez>
+		</tns:OstaliPor>
+		<tns:IznosOslobPdv>12.00</tns:IznosOslobPdv>
+		<tns:IznosMarza>13.00</tns:IznosMarza>
+		<tns:IznosUkupno>-30.00</tns:IznosUkupno>
+		<tns:NacinPlac>G</tns:NacinPlac>
+		<tns:OibOper>74786390334</tns:OibOper>
+		
+		<tns:NakDost>false</tns:NakDost>
+		<tns:SpecNamj>Navedeno kao primjer</tns:SpecNamj>
+	</tns:Racun>
+</tns:RacunZahtjev>

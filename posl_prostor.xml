@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:PoslovniProstorZahtjev xmlns:tns="http://www.apis-it.hr/fin/2012/types/f73">
+	<tns:PoslovniProstor>
+		<tns:Oib>FAKEOIB ==> MUST BE SAME AS IN CERT</tns:Oib>
+		<tns:OznPoslProstora>Poslovnica1</tns:OznPoslProstora>
+		<tns:AdresniPodatak>
+			<tns:Adresa>
+				<tns:Ulica>Mrčččiććeva</tns:Ulica>
+				<tns:KucniBroj>0045</tns:KucniBroj>
+				<tns:KucniBrojDodatak>B</tns:KucniBrojDodatak>
+				<tns:BrojPoste>10000</tns:BrojPoste>
+				<tns:Naselje>Zagreb</tns:Naselje>
+				<tns:Opcina>Zagreb</tns:Opcina>
+			</tns:Adresa>
+		</tns:AdresniPodatak>
+		<tns:RadnoVrijeme>Pon-Sub: 08:00-21:00, Ned: 09:00-14:00</tns:RadnoVrijeme>
+		<tns:DatumPocetkaPrimjene>01.09.2012</tns:DatumPocetkaPrimjene>
+		<tns:SpecNamj>08765432498</tns:SpecNamj>
+	</tns:PoslovniProstor>
+</tns:PoslovniProstorZahtjev>
