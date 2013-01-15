@@ -58,13 +58,17 @@ class Fiskalizator {
 		$conn = curl_init();
 
 		$settings = array(
-			CURLOPT_URL				=> $this->CisUrl ,
+			CURLOPT_URL		=> $this->CisUrl ,
 			CURLOPT_CONNECTTIMEOUT	=> $this->timeout,
-			CURLOPT_TIMEOUT 		=> $this->timeout,
+			CURLOPT_TIMEOUT 	=> $this->timeout,
 			CURLOPT_RETURNTRANSFER	=> true,
-			CURLOPT_SSL_VERIFYPEER 	=> false,
-			CURLOPT_POST 			=> true,
-			CURLOPT_POSTFIELDS 		=> $soapMessage
+			CURLOPT_POST 		=> true,
+			CURLOPT_POSTFIELDS 	=> $soapMessage,
+			
+			// secure this!
+			CURLOPT_SSL_VERIFYHOST  => 2,
+			CURLOPT_SSL_VERIFYPEER 	=> true,
+			CURLOPT_CAINFO 		=> dirname(__FILE__) .'/DEMO-FINA.crt',
 		);
 
 		curl_setopt_array($conn, $settings);
