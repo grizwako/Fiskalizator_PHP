@@ -8,6 +8,8 @@ class Fiskalizator {
 	public $timeout = 5;
 	public $ca_cert = 'DEMO_FINA.crt';
 
+	public $zki;
+
 	private $errors = array();
 
 	public function getJIR($xml) {
