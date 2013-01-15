@@ -13,7 +13,7 @@ $fis->certPass = 'pass';
 
 
 $doc = new DOMDocument();
-$xml_string = file_get_contents('posl_prostor.xml');
+$xml_string = file_get_contents('racun.xml');
 $doc->loadXML($xml_string);
 
 $response = $fis->doRequest($doc);
