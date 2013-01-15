@@ -6,6 +6,7 @@ class Fiskalizator {
 	public $certPath = '';
 	public $certPass = '';
 	public $timeout = 5;
+	public $ca_cert = 'DEMO_FINA.crt';
 
 	private $errors = array();
 
@@ -21,6 +22,11 @@ class Fiskalizator {
 
 	public function getErrors() {
 		return $this->errors;
+	}
+
+	public function setProductionMode(){
+		$this->CisUrl = 'https://cis.porezna-uprava.hr:8449/FiskalizacijaService';
+		$this->ca_cert = 'PROD_FINA.crt';
 	}
 
 	private function wrapSoapEnvelope($xml) {
@@ -68,7 +74,7 @@ class Fiskalizator {
 			// secure this!
 			CURLOPT_SSL_VERIFYHOST  => 2,
 			CURLOPT_SSL_VERIFYPEER 	=> true,
-			CURLOPT_CAINFO 		=> dirname(__FILE__) .'/DEMO-FINA.crt',
+			CURLOPT_CAINFO 		=> dirname(__FILE__) .'/'.$this->ca_cert,
 		);
 
 		curl_setopt_array($conn, $settings);
