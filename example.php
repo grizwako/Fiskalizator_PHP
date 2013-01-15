@@ -3,9 +3,10 @@
 require_once('Fiskalizator.php');
 $fis = new Fiskalizator();
 
+#Private key used to add your signature to xml request
 $fis->certPath = 'demo.pfx';
 $fis->certPass = 'pass';
-$fis->CisUrl = 'https://cistest.apis-it.hr:8449/FiskalizacijaServiceTest';
+
 
 $doc = new DOMDocument();
 $xml_string = file_get_contents('racun.xml');
