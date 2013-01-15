@@ -260,12 +260,13 @@ class Fiskalizator {
 	private function calculateZKI($doc){
 		
 		$nodes = array('Oib','DatVrijeme','BrOznRac','OznPosPr','OznNapUr','IznosUkupno');
-		$temp = '';
-		
+		$vals = array();
 		foreach ($nodes as $node){
-			$res = $doc->getElementsByTagName($node)->item(0);
-			$temp .= $res->nodeValue;
+			$vals[$node] = $doc->getElementsByTagName($node)->item(0)->nodeValue;
 		}
+		
+		$vals['DatVrijeme'] = str_replace('T', ' ', $vals['DatVrijeme']);
+		$temp = implode('', $vals);
 
 		if (! openssl_sign ($temp, $out, $this->certPrivateKey, OPENSSL_ALGO_SHA1)) {
 			$this->errors[] = 'CODE7: Failed to sign "ZastitniKod".';
