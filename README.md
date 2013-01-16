@@ -1,7 +1,7 @@
-Fiskalizator_PHP
-================
+PHP Fiskalizacija (Fiskalizator_PHP)
+====================================
 
-Pure PHP implementation of Croatian Fiscalization protocol.
+Open source pure PHP implementation of Croatian Fiscalization protocol.
 
 Requirements:  
 1.  Enable OpenSSL and CURL extensions in php.ini (extension=php_curl.dll and extension=php_openssl.dll)  
