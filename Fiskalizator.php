@@ -7,7 +7,7 @@ class Fiskalizator {
 	public $certPass = '';
 	public $timeout = 5;
 	public $ca_cert = 'DEMO_FINA.crt';
-	public $zki;
+	private $zki;
 
 	private $raw_request;
 	private $raw_response;
@@ -21,6 +21,18 @@ class Fiskalizator {
 		}
 
 		return false;
+	}
+
+	public function getZKI(){
+		if ($this->zki) return $this->zki;
+
+		$obj = simplexml_load_string($this->raw_request);
+		if ($response = $obj->xpath("//*[local-name() = 'ZastKod']") ) {
+			return (string)$response[0];
+		}
+
+		return false;
+
 	}
 
 	public function getRequest() {

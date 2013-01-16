@@ -26,6 +26,6 @@ if ($errors = $fis->getErrors() or $response === false ) {
 	echo 'Zahtjev uspješno izvršen.<br>';
 	if ($jir = $fis->getJIR($response)){
 		echo 'JIR: '. $jir . '<br>';
-		echo 'ZKI: '. $fis->zki;
+		echo 'ZKI: '. $fis->getZKI();
 	}
 }
