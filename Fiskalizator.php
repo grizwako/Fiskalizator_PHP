@@ -7,9 +7,10 @@ class Fiskalizator {
 	public $certPass = '';
 	public $timeout = 5;
 	public $ca_cert = 'DEMO_FINA.crt';
-
 	public $zki;
 
+	private $raw_request;
+	private $raw_response;
 	private $errors = array();
 
 	public function getJIR($xml) {
@@ -20,6 +21,14 @@ class Fiskalizator {
 		}
 
 		return false;
+	}
+
+	public function getRequest() {
+		return $this->raw_request;
+	}
+
+	public function getResponse() {
+		return $this->raw_response;
 	}
 
 	public function getErrors() {
@@ -61,7 +70,12 @@ class Fiskalizator {
 
 		if (!$signed_xml = $this->signXML($doc) ) return false;
 		
-		if (!$soapMessage = Fiskalizator::wrapSoapEnvelope($signed_xml)) return false;
+		if (!$this->raw_request = Fiskalizator::wrapSoapEnvelope($signed_xml)) return false;
+
+		return $this->makeServiceCall();
+	}
+
+	private function makeServiceCall(){
 
 		$conn = curl_init();
 
@@ -71,7 +85,7 @@ class Fiskalizator {
 			CURLOPT_TIMEOUT 	=> $this->timeout,
 			CURLOPT_RETURNTRANSFER	=> true,
 			CURLOPT_POST 		=> true,
-			CURLOPT_POSTFIELDS 	=> $soapMessage,
+			CURLOPT_POSTFIELDS 	=> $this->raw_request,
 			
 			// secure this!
 			CURLOPT_SSL_VERIFYHOST  => 2,
@@ -81,13 +95,13 @@ class Fiskalizator {
 
 		curl_setopt_array($conn, $settings);
 
-		if ($response = curl_exec($conn) ) {
+		if ($this->raw_response = curl_exec($conn) ) {
 
-			if ($this->checkResponseForErrors($response) === false) {
-				return $response;
+			if ($this->checkResponseForErrors() === false) {
+				return $this->raw_response;
 			}
 			
-			return $response;
+			return $this->raw_response;
 
 		} else {
 
@@ -213,9 +227,9 @@ class Fiskalizator {
 	}
 
 
-	private function checkResponseForErrors($response) {
+	private function checkResponseForErrors() {
 		
-		$obj = simplexml_load_string($response);
+		$obj = simplexml_load_string($this->raw_response);
 		
 		if ($e = $obj->xpath('//faultstring')) {
 			$this->errors[] = 'CODE0: '.(string)$e[0];
