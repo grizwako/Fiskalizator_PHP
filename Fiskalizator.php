@@ -241,7 +241,7 @@ class Fiskalizator {
 
 	private function checkResponseForErrors() {
 		
-		$obj = simplexml_load_string($this->raw_response);
+		$obj =  $this->getResponseSimpleXMLObj();
 		
 		if ($e = $obj->xpath('//faultstring')) {
 			$this->errors[] = 'CODE0: '.(string)$e[0];
@@ -255,9 +255,25 @@ class Fiskalizator {
 
 		if ($e = $obj->xpath("//*[local-name() = 'PorukaGreske']") ) {
 			$this->errors[] = 'CODE2: '.(string)$e[0];
+			return;
 		}
+
+		$this->doesRequestId_match_responseId();
 	}
 
+	private function getResponseSimpleXMLObj() {
+		if (!$this->responseSimpleXmlObj) {
+			$this->responseSimpleXmlObj = simplexml_load_string($this->raw_response);
+		}
+		return $this->responseSimpleXmlObj;
+	}
+
+	private function getRequestSimpleXMLObj() {
+		if (!$this->requestSimpleXmlObj) {
+			$this->requestSimpleXmlObj = simplexml_load_string($this->raw_request);
+		}
+		return $this->requestSimpleXmlObj;
+	}
 
 	private function addProtectionCodeForInvoice($doc){
 		$prefix =  $doc->documentElement->prefix;
@@ -329,6 +345,31 @@ class Fiskalizator {
         mt_rand( 0, 0x0fff ) | 0x4000,
         mt_rand( 0, 0x3fff ) | 0x8000,
         mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ) );
+	}
+
+	private function doesRequestId_match_responseId(){
+		$res = $this->getResponseSimpleXMLObj();
+		$req = $this->getRequestSimpleXMLObj();
+
+		if ( ! $reqId = $req->xpath("//*[local-name() = 'IdPoruke']") ) {
+			$this->errors[] = 'CODE8: MessageId "IdPoruke" not found in request';
+			return false;
+		} else {
+			$reqId = (string)$reqId[0];
+		}
+
+		if ( ! $resId = $res->xpath("//*[local-name() = 'IdPoruke']") ) {
+			$this->errors[] = 'CODE8: MessageId "IdPoruke" not found in response';
+			return false;
+		} else {
+			$resId = (string)$resId[0];
+		}
+
+		if ($reqId !== $resId) {
+			$this->errors[] = 'CODE8: MessageId in request is not same as MessageId in response.';
+			return false;
+		}
+		return true;
 	}
 
 
