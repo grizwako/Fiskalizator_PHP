@@ -8,7 +8,7 @@ $fis = new Fiskalizator();
 #Also, do not forget to change certPath and certPass to match your production certificate
 
 #Private key used to add your signature to xml request
-$fis->certPath = 'demo.pfx';
+$fis->certPath = 'certificates/demo/my_private.pfx';
 $fis->certPass = 'pass';
 
 

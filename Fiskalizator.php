@@ -6,7 +6,7 @@ class Fiskalizator {
 	public $certPath = '';
 	public $certPass = '';
 	public $timeout = 5;
-	public $ca_cert = 'DEMO_FINA.crt';
+	public $ca_cert = 'certificates/demo/ssl_cis.crt';
 	private $zki;
 
 	private $raw_request;
@@ -49,7 +49,7 @@ class Fiskalizator {
 
 	public function setProductionMode(){
 		$this->CisUrl = 'https://cis.porezna-uprava.hr:8449/FiskalizacijaService';
-		$this->ca_cert = 'PROD_FINA.crt';
+		$this->ca_cert = 'certificates/production/ssl_cis.crt';
 	}
 
 	private function wrapSoapEnvelope($xml) {
