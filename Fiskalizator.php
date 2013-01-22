@@ -15,7 +15,6 @@ class Fiskalizator {
 	private $raw_request;
 	private $raw_response;
 
-	//unixtimestamp in seconds, message text
 	private $errors = array();
 
 	public function getJIR($xml) {
