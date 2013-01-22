@@ -9,8 +9,13 @@ class Fiskalizator {
 	public $ca_cert = 'certificates/demo/ssl_cis.crt';
 	private $zki;
 
+	private $requestSimpleXmlObj;
+	private $responseSimpleXmlObj;
+
 	private $raw_request;
 	private $raw_response;
+
+	//unixtimestamp in seconds, message text
 	private $errors = array();
 
 	public function getJIR($xml) {
@@ -93,8 +98,8 @@ class Fiskalizator {
 
 		$settings = array(
 			CURLOPT_URL		=> $this->CisUrl ,
-			CURLOPT_CONNECTTIMEOUT	=> $this->timeout,
-			CURLOPT_TIMEOUT 	=> $this->timeout,
+			CURLOPT_CONNECTTIMEOUT_MS	=> $this->timeout * 1000,
+			CURLOPT_TIMEOUT_MS 	=> $this->timeout * 1000,
 			CURLOPT_RETURNTRANSFER	=> true,
 			CURLOPT_POST 		=> true,
 			CURLOPT_POSTFIELDS 	=> $this->raw_request,
@@ -172,7 +177,7 @@ class Fiskalizator {
 
 
 	private function loadCertificateData() {
-		if (!is_file($this->certPath)){
+		if (!is_file($this->certPath)) {
 			$this->errors[] = 'CODE3: There is no certificate file!';
 			return;
 		}
