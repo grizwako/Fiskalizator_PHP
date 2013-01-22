@@ -161,7 +161,7 @@ class Fiskalizator {
 	}
 
 
-	private function addX509Node($doc) {
+	private function addX509Node(DOMDocument $doc) {
 
 		$sigNode = $doc->getElementsByTagName('Signature')->item(0);
 
@@ -178,7 +178,7 @@ class Fiskalizator {
 	private function loadCertificateData() {
 		if (!is_file($this->certPath)) {
 			$this->errors[] = 'CODE3: There is no certificate file!';
-			return;
+			return false;
 		}
 
 		$certText = file_get_contents($this->certPath);
@@ -279,7 +279,7 @@ class Fiskalizator {
 		return $this->requestSimpleXmlObj;
 	}
 
-	private function addProtectionCodeForInvoice($doc){
+	private function addProtectionCodeForInvoice(DOMDocument $doc){
 		$prefix =  $doc->documentElement->prefix;
 
 		//We need ProtectionCode only for Invoice request.
