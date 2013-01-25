@@ -28,8 +28,12 @@ $req->wrapSoapEnvelope();
 $xml = $req->saveXML();
 $cis = new CIS_Service();
 
-$response_xml = $cis->doRequest($xml);
-
+try {
+    $response_xml = $cis->doRequest($xml);
+} catch (Exception $e) {
+    echo 'Connection error! ' . $e->getMessage();
+    die();
+}
 $res = new FiskalResponseXML($response_xml);
 if ($e = $res->getErrorMessage()) {
     echo 'Error! ==> <br>' . $e;
