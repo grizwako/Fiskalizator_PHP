@@ -4,18 +4,18 @@
 
 require_once('Certificate.php');
 require_once('FiskalRequestXML.php');
+require_once('FiskalResponseXML.php');
 require_once('CIS_Service.php');
 
 //Init XML
 $doc = new DOMDocument();
-#$doc->formatOutput = true;
-#$doc->preserveWhiteSpace = false;
+$doc->formatOutput = true;
 $xml_string = file_get_contents('racun.xml');
 $doc->loadXML($xml_string);
 
 
 $c = new Certificate();
-$c->loadFile('certificates/demo/my_private.pfx','pass');
+$c->loadFile('certificates/demo/my_private.pfx', 'pass');
 
 $req = new FiskalRequestXML($doc, $c);
 
@@ -27,10 +27,18 @@ $req->wrapSoapEnvelope();
 
 $xml = $req->saveXML();
 $cis = new CIS_Service();
-#$zki = $req->getZKI();
-#die($xml);
-$response_xml = $cis->call($xml);
 
-echo $response_xml;
+$response_xml = $cis->doRequest($xml);
 
+$res = new FiskalResponseXML($response_xml);
+if ($e = $res->getErrorMessage()) {
+    echo 'Error! ==> <br>' . $e;
+} else {
+    echo 'Success. <br>';
+    if ($res->getType() === 'RacunOdgovor') {
+        echo 'JIR: ' . $res->getJIR() . '<br>';
+        echo 'ZKI: ' . $req->getZKI();
+
+    }
+}
 

@@ -2,17 +2,18 @@
 
 require_once('UUID.php');
 
-class FiskalRequestXML {
+class FiskalRequestXML
+{
 
     private $doc;
 
-    public function __construct(DOMDocument $doc, Certificate $cert){
+    public function __construct(DOMDocument $doc, Certificate $cert) {
         $this->doc = $doc;
         $this->cert = $cert;
     }
 
     public function getZKI() {
-        if ($node = $this->doc->getElementsByTagName('ZastKod')->item(0)){
+        if ($node = $this->doc->getElementsByTagName('ZastKod')->item(0)) {
             return $node->nodeValue;
         }
         return false;
@@ -22,15 +23,15 @@ class FiskalRequestXML {
      * Adds "ZastKod" if it is not already set
      */
     public function setupZKI() {
-        if ($this->doc->getElementsByTagName('ZastKod')->item(0)){
+        if ($this->doc->getElementsByTagName('ZastKod')->item(0)) {
             return true;
         }
-        $prefix =  $this->doc->documentElement->prefix;
+        $prefix = $this->doc->documentElement->prefix;
         $zki = $this->calculateZKI();
-        $NakDost = $this->doc->getElementsByTagName('NakDost')->item(0);
-        $ZKINode = new DOMElement("{$prefix}:ZastKod", $zki, $this->doc->documentElement->namespaceURI);
+        $nakDost = $this->doc->getElementsByTagName('NakDost')->item(0);
+        $zkiNode = new DOMElement("{$prefix}:ZastKod", $zki, $this->doc->documentElement->namespaceURI);
         $invoice = $this->doc->getElementsByTagName('Racun')->item(0);
-        $invoice->insertBefore($ZKINode, $NakDost);
+        $invoice->insertBefore($zkiNode, $nakDost);
 
         return true;
     }
@@ -40,9 +41,9 @@ class FiskalRequestXML {
      */
     private function calculateZKI() {
 
-        $nodes = array('Oib','DatVrijeme','BrOznRac','OznPosPr','OznNapUr','IznosUkupno');
+        $nodes = array('Oib', 'DatVrijeme', 'BrOznRac', 'OznPosPr', 'OznNapUr', 'IznosUkupno');
         $vals = array();
-        foreach ($nodes as $node){
+        foreach ($nodes as $node) {
             $vals[$node] = $this->doc->getElementsByTagName($node)->item(0)->nodeValue;
         }
 
@@ -50,25 +51,27 @@ class FiskalRequestXML {
         $temp = implode('', $vals);
 
         try {
-            $zki_temp = $this->cert->calculateSignature($temp);
-            return md5($zki_temp);
+            $zkiTemp = $this->cert->calculateSignature($temp);
+            return md5($zkiTemp);
         } catch (Exception $e) {
             return false;
         }
     }
 
+    /**
+     * Wraps SOAP-ENV around current root element
+     */
     public function wrapSoapEnvelope() {
-        $soap_ns = 'SOAP-ENV';
-        $soap_ns_uri = 'http://schemas.xmlsoap.org/soap/envelope/';
-        $this->doc->createAttributeNS($soap_ns_uri, $soap_ns);
-        $this->doc->createAttributeNS('http://www.apis-it.hr/fin/2012/types/f73', 'tns');
+        $soapNs = 'SOAP-ENV';
+        $soapNsUri = 'http://schemas.xmlsoap.org/soap/envelope/';
+        $this->doc->createAttributeNS($soapNsUri, $soapNs);
 
-        $envelope = new DOMElement("{$soap_ns}:Envelope",null,$soap_ns_uri);
-        $body = new DOMElement("{$soap_ns}:Body",null,$soap_ns_uri);
+        $envelope = new DOMElement("{$soapNs}:Envelope", null, $soapNsUri);
+        $body = new DOMElement("{$soapNs}:Body", null, $soapNsUri);
 
-        #take reference so we dont loose it
+        #take reference so we don't loose it
         $rootNode = $this->doc->documentElement;
-        $this->doc->replaceChild($envelope,$rootNode);
+        $this->doc->replaceChild($envelope, $rootNode);
 
 
         $envelope->appendChild($body);
@@ -77,27 +80,26 @@ class FiskalRequestXML {
 
     public function insertHeadInRequest() {
 
-        $prefix =  $this->doc->documentElement->prefix;
+        $prefix = $this->doc->documentElement->prefix;
 
-        $dateTime = date('d.m.Y').'T'.date('H:i:s');
-
+        $dateTime = date('d.m.Y') . 'T' . date('H:i:s');
 
         $header = new DOMElement("{$prefix}:Zaglavlje", '', $this->doc->documentElement->namespaceURI);
-        $req_dateTime = new DOMElement("{$prefix}:DatumVrijeme", $dateTime, $this->doc->documentElement->namespaceURI);
-        $req_UUID = new DOMElement("{$prefix}:IdPoruke", UUID::v4(), $this->doc->documentElement->namespaceURI);
+        $reqDateTime = new DOMElement("{$prefix}:DatumVrijeme", $dateTime, $this->doc->documentElement->namespaceURI);
+        $reqUUID = new DOMElement("{$prefix}:IdPoruke", UUID::v4(), $this->doc->documentElement->namespaceURI);
 
         $refElem = $this->doc->documentElement->firstChild;
 
         $this->doc->documentElement->insertBefore($header, $refElem);
 
-        $header->appendChild($req_UUID);
-        $header->appendChild($req_dateTime);
+        $header->appendChild($reqUUID);
+        $header->appendChild($reqDateTime);
 
     }
 
     public function sign() {
 
-        $this->doc->documentElement->setAttribute('Id','signXmlId');
+        $this->doc->documentElement->setAttribute('Id', 'signXmlId');
 
         $canonical = $this->doc->C14N(true, false);
         $signatureDigest = base64_encode(hash('sha1', $canonical, true));
@@ -108,7 +110,7 @@ class FiskalRequestXML {
 
         try {
             $signature = $this->cert->calculateSignature($sigNodeXMLString);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return false;
         }
 
@@ -125,30 +127,30 @@ class FiskalRequestXML {
         $rootElem = $this->doc->documentElement;
 
         $sigNode = $rootElem->appendChild(new DOMElement('Signature'));
-        $sigNode->setAttribute('xmlns','http://www.w3.org/2000/09/xmldsig#');
+        $sigNode->setAttribute('xmlns', 'http://www.w3.org/2000/09/xmldsig#');
 
         $signedInfoNode = $sigNode->appendChild(new DOMElement('SignedInfo'));
-        $signedInfoNode->setAttribute('xmlns','http://www.w3.org/2000/09/xmldsig#');
+        $signedInfoNode->setAttribute('xmlns', 'http://www.w3.org/2000/09/xmldsig#');
 
         $canonMethodNode = $signedInfoNode->appendChild(new DOMElement('CanonicalizationMethod'));
-        $canonMethodNode->setAttribute('Algorithm','http://www.w3.org/2001/10/xml-exc-c14n#');
+        $canonMethodNode->setAttribute('Algorithm', 'http://www.w3.org/2001/10/xml-exc-c14n#');
 
         $signatureMethodNode = $signedInfoNode->appendChild(new DOMElement('SignatureMethod'));
-        $signatureMethodNode->setAttribute('Algorithm','http://www.w3.org/2000/09/xmldsig#rsa-sha1');
+        $signatureMethodNode->setAttribute('Algorithm', 'http://www.w3.org/2000/09/xmldsig#rsa-sha1');
 
         $referenceNode = $signedInfoNode->appendChild(new DOMElement('Reference'));
-        $referenceNode->setAttribute('URI','#signXmlId');
+        $referenceNode->setAttribute('URI', '#signXmlId');
 
         $transformsNode = $referenceNode->appendChild(new DOMElement('Transforms'));
         $tr1Node = $transformsNode->appendChild(new DOMElement('Transform'));
         $tr2Node = $transformsNode->appendChild(new DOMElement('Transform'));
-        $tr1Node->setAttribute('Algorithm','http://www.w3.org/2000/09/xmldsig#enveloped-signature');
+        $tr1Node->setAttribute('Algorithm', 'http://www.w3.org/2000/09/xmldsig#enveloped-signature');
         $tr2Node->setAttribute('Algorithm', 'http://www.w3.org/2001/10/xml-exc-c14n#');
 
         $digestMethodNode = $referenceNode->appendChild(new DOMElement('DigestMethod'));
-        $digestMethodNode->setAttribute('Algorithm','http://www.w3.org/2000/09/xmldsig#sha1');
+        $digestMethodNode->setAttribute('Algorithm', 'http://www.w3.org/2000/09/xmldsig#sha1');
 
-        $digestValueNode = $referenceNode->appendChild(new DOMElement('DigestValue',$digest));
+        $referenceNode->appendChild(new DOMElement('DigestValue', $digest));
     }
 
     private function addX509Node() {
@@ -159,11 +161,11 @@ class FiskalRequestXML {
 
         $x509DataNode->appendChild(new DOMElement('X509Certificate', $this->cert->getX509Cert()));
         $x509IssuerSerialNode = $x509DataNode->appendChild(new DOMElement('X509IssuerSerial'));
-        $x509IssuerSerialNode->appendChild(new DOMElement('X509IssuerName',$this->cert->getIssuerAsString()));
-        $x509IssuerSerialNode->appendChild(new DOMElement('X509SerialNumber',$this->cert->getSerialNumber()));
+        $x509IssuerSerialNode->appendChild(new DOMElement('X509IssuerName', $this->cert->getIssuerAsString()));
+        $x509IssuerSerialNode->appendChild(new DOMElement('X509SerialNumber', $this->cert->getSerialNumber()));
     }
 
-    public function saveXML(){
+    public function saveXML() {
         return $this->doc->saveXML();
     }
 
