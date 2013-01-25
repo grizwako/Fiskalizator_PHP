@@ -15,7 +15,7 @@ class CIS_Service
      * @return string $xml or false on failure
      * @throws Exception in case of connection problems
      */
-    public function doRequest($xml, $attempts = 3, $timeout = 0.07) {
+    public function doRequest($xml, $attempts = 3, $timeout = 5) {
 
         if (!$attempts or !is_int($attempts)) {
             $attempts = 1;
