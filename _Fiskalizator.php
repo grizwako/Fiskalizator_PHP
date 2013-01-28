@@ -95,8 +95,8 @@ class _Fiskalizator {
         } catch (Exception $e) {
             throw $e;
         }
-        $this->request = new FiskalResponseXML($responseXml);
-        if ($e = $this->request->getErrorMessage()) {
+        $this->response = new FiskalResponseXML($responseXml);
+        if ($e = $this->response->getErrorMessage()) {
             throw new Exception($e);
         }
 
@@ -108,7 +108,7 @@ class _Fiskalizator {
     }
 
     public function getResponseType(){
-        return $this->getResponseType();
+        return $this->response->getType();
     }
 
 
