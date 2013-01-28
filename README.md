@@ -18,6 +18,8 @@ to verify that everything works correctly.
 
 Features:
  * Automatic retry on network errors with custom specifiable timeout
+ * Auto add ZKI (protection code) if it not defined in XML (no need to calculate it yourself)
+ * Auto generate UUID and setup message header (UUID and datetime field)
  * Convenience methods on main class (it is actually only a module facade),  
 you are free to rewrite Fiskaloizator.php as you see fit.
  * Lots of error checking, if something can go wrong and it is not taken into account, pls open new Issue on github
