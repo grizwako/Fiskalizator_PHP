@@ -1,6 +1,6 @@
 <?php
 
-require_once('_Fiskalizator.php');
+require_once('Fiskalizator.php');
 
 //Init XML
 $doc = new DOMDocument();
