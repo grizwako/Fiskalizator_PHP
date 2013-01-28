@@ -28,3 +28,17 @@ if ($fis->getRequestType() == 'RacunZahtjev'){
     echo 'JIR: '.$fis->getJIR().'<br>';
     echo 'ZKI: '.$fis->getZKI().'<br>';
 }
+
+/**
+ * For those without auto complete :)
+ *
+var_dump(
+    $fis->getRequestType(),
+    $fis->getResponseType(),
+    $fis->getRequest(),
+    $fis->getResponse(),
+    $fis->getRawRequest(),
+    $fis->getRawResponse()
+
+);
+*/
