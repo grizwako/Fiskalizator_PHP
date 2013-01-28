@@ -5,7 +5,7 @@ require_once('FiskalRequestXML.php');
 require_once('FiskalResponseXML.php');
 require_once('CIS_Service.php');
 
-class _Fiskalizator {
+class Fiskalizator {
 
     /** @var FiskalRequestXML */
     private $request;

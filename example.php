@@ -9,7 +9,7 @@ $xml_string = file_get_contents('racun.xml');
 $doc->loadXML($xml_string);
 
 
-$fis = new _Fiskalizator('certificates/demo/my_private.pfx', 'pass');
+$fis = new Fiskalizator('certificates/demo/my_private.pfx', 'pass');
 
 #UNCOMMENT FOLLOWING LINE AFTER YOU THOROUGHLY TESTED DEMO MODE (service provider says 2 days minimum)
 #$fis->setProductionMode();
