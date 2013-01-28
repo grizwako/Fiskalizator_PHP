@@ -6,10 +6,12 @@ class FiskalRequestXML
 {
 
     private $doc;
+    private $allowedTypes;
 
     public function __construct(DOMDocument $doc, Certificate $cert) {
         $this->doc = $doc;
         $this->cert = $cert;
+        $this->allowedTypes = array('RacunZahtjev','PoslovniProstorZahtjev');
     }
 
     public function getZKI() {
@@ -167,6 +169,16 @@ class FiskalRequestXML
 
     public function saveXML() {
         return $this->doc->saveXML();
+    }
+
+    public function getType() {
+        foreach ($this->allowedTypes as $type) {
+            if ($this->doc->getElementsByTagName($type)->item(0)) {
+                return $type;
+            }
+        }
+
+        return false;
     }
 
 }

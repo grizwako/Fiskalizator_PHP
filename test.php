@@ -1,11 +1,6 @@
 <?php
 
-#Kad uhvatis vremena, pocni koristit unit testove
-
-require_once('Certificate.php');
-require_once('FiskalRequestXML.php');
-require_once('FiskalResponseXML.php');
-require_once('CIS_Service.php');
+require_once('_Fiskalizator.php');
 
 //Init XML
 $doc = new DOMDocument();
@@ -13,36 +8,23 @@ $doc->formatOutput = true;
 $xml_string = file_get_contents('racun.xml');
 $doc->loadXML($xml_string);
 
+$fis = new _Fiskalizator('certificates/demo/my_private.pfx', 'pass');
 
-$c = new Certificate();
-$c->loadFile('certificates/demo/my_private.pfx', 'pass');
-
-$req = new FiskalRequestXML($doc, $c);
-
-$req->setupZKI();
-
-$req->insertHeadInRequest();
-$req->sign();
-$req->wrapSoapEnvelope();
-
-$xml = $req->saveXML();
-$cis = new CIS_Service();
+#$fis->setProductionMode();
 
 try {
-    $response_xml = $cis->doRequest($xml);
+    $fis->doRequest($doc);
+
+    #custom timeout and number of retries on network error, default is 3 retries and 5 seconds timeout tolerance
+    #$fis->doRequest($doc, 10, 5.2);
 } catch (Exception $e) {
-    echo 'Connection error! ' . $e->getMessage();
+    echo $e->getMessage();
     die();
 }
-$res = new FiskalResponseXML($response_xml);
-if ($e = $res->getErrorMessage()) {
-    echo 'Error! ==> <br>' . $e;
-} else {
-    echo 'Success. <br>';
-    if ($res->getType() === 'RacunOdgovor') {
-        echo 'JIR: ' . $res->getJIR() . '<br>';
-        echo 'ZKI: ' . $req->getZKI();
 
-    }
+
+echo 'Success<br>';
+if ($fis->getRequestType() == 'RacunZahtjev'){
+    echo 'JIR: '.$fis->getJIR().'<br>';
+    echo 'ZKI: '.$fis->getZKI().'<br>';
 }
-

@@ -3,7 +3,7 @@
 class FiskalResponseXML
 {
 
-    private static $allowedTypes;
+    private $allowedTypes;
 
     /**
      * @param string $xml
@@ -12,7 +12,7 @@ class FiskalResponseXML
         $this->doc = new DOMDocument();
         $this->doc->loadXML($xml);
 
-        FiskalResponseXML::$allowedTypes = array(
+        $this->allowedTypes = array(
             'RacunOdgovor', 'PoslovniProstorOdgovor'
         );
     }
@@ -25,7 +25,7 @@ class FiskalResponseXML
     }
 
     public function getType() {
-        foreach (FiskalResponseXML::$allowedTypes as $type) {
+        foreach ($this->allowedTypes as $type) {
             if ($this->doc->getElementsByTagName($type)->item(0)) {
                 return $type;
             }
@@ -53,5 +53,9 @@ class FiskalResponseXML
 
         return false;
 
+    }
+
+    public function saveXML(){
+        return $this->doc->saveXML();
     }
 }
