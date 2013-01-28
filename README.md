@@ -1,6 +1,8 @@
 PHP Fiskalizacija (Fiskalizator_PHP)
 ====================================
 
+Usage: example.php
+
 Open source pure PHP implementation of Croatian Fiscalization protocol.
 
 Requirements:  
@@ -14,4 +16,8 @@ Croatian Tax Administration recommends running application for two days in DEMO 
 to verify that everything works correctly.  
 ***!After!*** two days of runtime without problems have passed, run $fis->setProductionMode().
 
-
+Features:
+ * Automatic retry on network errors with custom specifiable timeout
+ * Convenience methods on main class (it is actually only a module facade),  
+you are free to rewrite Fiskaloizator.php as you see fit.
+ * Lots of error checking, if something can go wrong and it is not taken into account, pls open new Issue on github
