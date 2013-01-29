@@ -14,7 +14,7 @@ OIB has exactly 11 numeric characters.
   
 Croatian Tax Administration recommends running application for two days in DEMO mode
 to verify that everything works correctly.  
-***!After!*** two days of runtime without problems have passed, run $fis->setProductionMode().
+***!After!*** TWO days of runtime without problems have passed, run $fis->setProductionMode().
 
 Features:
  * Automatic retry on network errors with custom specifiable timeout
