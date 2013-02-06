@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Fiskalizator PHP (Fiskalizacija) : Pure PHP implementation of Croatian Fiscalization protocol" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Fiskalizator PHP (Fiskalizacija)</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/grizwako/Fiskalizator_PHP">View on GitHub</a>
+
+          <h1 id="project_title">Fiskalizator PHP (Fiskalizacija)</h1>
+          <h2 id="project_tagline">Pure PHP implementation of Croatian Fiscalization protocol</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/grizwako/Fiskalizator_PHP/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/grizwako/Fiskalizator_PHP/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>PHP Fiskalizacija (Fiskalizator_PHP)</h1>
+
+<p>Usage: example.php</p>
+
+<p>PHP Fiskalizcaija | Open source pure PHP implementation of Croatian Fiscalization protocol.</p>
+
+<p>Requirements:<br>
+1.  Enable OpenSSL and CURL extensions in php.ini (extension=php_curl.dll and extension=php_openssl.dll)<br>
+2.  Open example.php in your favorite text editor and change path and password for your certificate file.<br>
+3.  Open "racun.xml" and change OIB field to match OIB used in certificate.
+OIB has exactly 11 numeric characters.  </p>
+
+<p>Croatian Tax Administration recommends running application for two days in DEMO mode
+to verify that everything works correctly.<br><strong><em>!After!</em></strong> TWO days of runtime without problems have passed, run $fis-&gt;setProductionMode().</p>
+
+<p>Features:</p>
+
+<ul>
+<li>Automatic retry on network errors with custom specifiable timeout</li>
+<li>Auto add ZKI (protection code) if it not defined in XML (no need to calculate it yourself)</li>
+<li>Auto generate UUID and setup message header (UUID and datetime field)</li>
+<li>Convenience methods on main class (it is actually only a module facade),<br>
+you are free to rewrite Fiskaloizator.php as you see fit.</li>
+<li>Lots of error checking, if something can go wrong and it is not taken into account, pls open new Issue on github</li>
+</ul>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Fiskalizator PHP (Fiskalizacija) maintained by <a href="https://github.com/grizwako">grizwako</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
