@@ -6,6 +6,7 @@ Usage: example.php
 Open source pure PHP implementation of Croatian Fiscalization protocol.
 
 Requirements:  
+0.  PHP 5.4, if you want to use some older version, you will have to make some small changes. PHP 5.3 does not suppert someFunction()[0] syntax.
 1.  Enable OpenSSL and CURL extensions in php.ini (extension=php_curl.dll and extension=php_openssl.dll)  
 2.  Open example.php in your favorite text editor and change path and password for your certificate file.  
 3.  Open "racun.xml" and change OIB field to match OIB used in certificate.
